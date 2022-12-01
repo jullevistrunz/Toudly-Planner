@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error!</title>
+    <link rel="stylesheet" type="text/css" href="/css/root.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/error.min.css" />
+  </head>
+  <body>
+    <div>Error!</div>
+    <div>If you contact support, please give them this error code:</div>
+    <div class="spacer"></div>
+    <div
+      id="errorCode"
+      style="color: red"
+      title="Click To Copy"
+      onclick=" navigator.clipboard.writeText(this.innerHTML)"
+    >
+      local.unknownError
+    </div>
+    <br />
+    <span class="button" onclick="location.href = '/'">Return To Homepage</span>
+    <div class="spacer"></div>
+    <span class="button" onclick="history.back()">Go Back</span>
+  </body>
+  <script src="/js/error.min.js"></script>
+</html>

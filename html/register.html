@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toudly - Register</title>
+    <link rel="stylesheet" href="/css/root.min.css" />
+    <link rel="stylesheet" href="/css/main.min.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="navbarItemMenuLeft" onclick="toggleMenuLeft()">
+        <svg
+          style="fill: white; transform: translateY(3px)"
+          width="30px"
+          height="30px"
+          viewBox="0 0 24.75 24.75"
+        >
+          <g>
+            <path
+              d="M0,3.875c0-1.104,0.896-2,2-2h20.75c1.104,0,2,0.896,2,2s-0.896,2-2,2H2C0.896,5.875,0,4.979,0,3.875z M22.75,10.375H2
+            c-1.104,0-2,0.896-2,2c0,1.104,0.896,2,2,2h20.75c1.104,0,2-0.896,2-2C24.75,11.271,23.855,10.375,22.75,10.375z M22.75,18.875H2
+            c-1.104,0-2,0.896-2,2s0.896,2,2,2h20.75c1.104,0,2-0.896,2-2S23.855,18.875,22.75,18.875z"
+            />
+          </g>
+        </svg>
+      </div>
+      <div class="navbarItemBack" onclick="history.back()">
+        <svg
+          style="fill: white; transform: translateY(4px)"
+          width="30px"
+          height="30px"
+          viewBox="0 0 512 512"
+        >
+          <polygon
+            points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "
+          />
+        </svg>
+      </div>
+      <div class="navbarItems">
+        <div class="navbarItem" onclick="location.href = '/'">Home</div>
+        <div class="navbarItem selected" onclick="location.href = '/register'">
+          Register
+        </div>
+        <div class="navbarItem" onclick="location.href = '/login'">Login</div>
+        <div class="navbarItem" data-id="logoutBtn">Logout</div>
+      </div>
+      <script>
+        let loggedIn = false
+        if (localStorage.getItem('name') && localStorage.getItem('sessionID')) {
+          loggedIn = true
+        }
+        if (document.documentElement.clientWidth < 450) {
+          document.getElementsByClassName('navbar')[0].classList.add('mobile')
+        }
+        function navbarItemLine() {
+          const items = document.getElementsByClassName('navbarItem')
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].firstElementChild) {
+              items[i].removeChild(items[i].firstElementChild)
+            }
+            items[i].id = `navbarItem${i}`
+            const width = document.defaultView.getComputedStyle(items[i]).width
+            const styleEl = document.createElement('style')
+            styleEl.innerHTML = `#${items[i].id}::after {width: ${width};transform: translate(-${width}, 32px)}`
+            items[i].appendChild(styleEl)
+          }
+        }
+        navbarItemLine()
+        function toggleMenuLeft() {
+          if (
+            document.getElementsByClassName('navbarItemMenuLeft')[0].style
+              .margin != '20px'
+          ) {
+            document.getElementsByClassName('navbar')[0].style.width = '100%'
+            document.getElementsByClassName('navbar')[0].style.height =
+              'fit-content'
+            document.getElementsByClassName(
+              'navbarItemMenuLeft'
+            )[0].style.margin = '20px'
+            document.getElementsByClassName('navbarItems')[0].style.display =
+              'flex'
+          } else {
+            document.getElementsByClassName('navbar')[0].style.width = '75px'
+            document.getElementsByClassName('navbar')[0].style.height = '75px'
+            document.getElementsByClassName(
+              'navbarItemMenuLeft'
+            )[0].style.margin = 'auto'
+            document.getElementsByClassName('navbarItems')[0].style.display =
+              'none'
+          }
+          navbarItemLine()
+        }
+        if (loggedIn) {
+          document
+            .querySelector('[data-id="logoutBtn"]')
+            .addEventListener('click', () => {
+              location.href = `/logout?name=${localStorage.getItem(
+                'name'
+              )}&sessionID=${localStorage.getItem('sessionID')}`
+            })
+        } else {
+          document
+            .querySelector('[data-id="logoutBtn"]')
+            .classList.add('hidden')
+        }
+      </script>
+    </div>
+    <div class="itemContainer center setWidth" id="loginContainer">
+      <div class="spacer-small"></div>
+      <div class="header center">Register</div>
+      <div class="spacer"></div>
+      <div class="inpContainer center setWidth">
+        <form action="/post/register" method="post">
+          <input
+            type="text"
+            name="name"
+            id="nameInp"
+            class="inp"
+            placeholder="Name"
+          />
+          <div class="inpErrorInfo-wrapper">
+            <div class="inpErrorInfo hidden" id="inpErrorInfo-nameInp-tooShort">
+              Minimum Length: 4
+            </div>
+            <div
+              class="inpErrorInfo hidden"
+              id="inpErrorInfo-nameInp-invalidChar"
+            >
+              Allowed Characters: a-z, A-Z, 0-9, _-.
+            </div>
+          </div>
+          <div class="spacer-small"></div>
+          <input
+            type="password"
+            name="password"
+            id="passwordInp"
+            class="inp"
+            placeholder="Password"
+          />
+          <div class="inpErrorInfo-wrapper">
+            <div
+              class="inpErrorInfo hidden"
+              id="inpErrorInfo-passwordInp-tooShort"
+            >
+              Minimum Length: 6
+            </div>
+            <div
+              class="inpErrorInfo hidden"
+              id="inpErrorInfo-passwordInp-invalidChar"
+            >
+              Allowed Characters: a-z, A-Z, 0-9, _-.
+            </div>
+          </div>
+          <div class="spacer-small"></div>
+          <input type="submit" class="btn" id="submitBtn" disabled />
+          <div class="inpErrorInfo-wrapper">
+            <div class="inpErrorInfo hidden" id="inpErrorInfo-submitBtn-logout">
+              Please Logout First
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </body>
+  <script src="/js/register.min.js"></script>
+</html>

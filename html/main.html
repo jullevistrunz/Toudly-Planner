@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toudly Planner</title>
+    <link rel="stylesheet" href="/css/root.min.css" />
+    <link rel="stylesheet" href="/css/main.min.css" />
+  </head>
+  <body>
+    <div class="backgroundBlock hidden"></div>
+    <div class="navbar">
+      <div class="navbarItemMenuLeft" onclick="toggleMenuLeft()">
+        <svg
+          style="fill: white; transform: translateY(3px)"
+          width="30px"
+          height="30px"
+          viewBox="0 0 24.75 24.75"
+        >
+          <g>
+            <path
+              d="M0,3.875c0-1.104,0.896-2,2-2h20.75c1.104,0,2,0.896,2,2s-0.896,2-2,2H2C0.896,5.875,0,4.979,0,3.875z M22.75,10.375H2
+            c-1.104,0-2,0.896-2,2c0,1.104,0.896,2,2,2h20.75c1.104,0,2-0.896,2-2C24.75,11.271,23.855,10.375,22.75,10.375z M22.75,18.875H2
+            c-1.104,0-2,0.896-2,2s0.896,2,2,2h20.75c1.104,0,2-0.896,2-2S23.855,18.875,22.75,18.875z"
+            />
+          </g>
+        </svg>
+      </div>
+      <div class="navbarItemBack" onclick="history.back()">
+        <svg
+          style="fill: white; transform: translateY(4px)"
+          width="30px"
+          height="30px"
+          viewBox="0 0 512 512"
+        >
+          <polygon
+            points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "
+          />
+        </svg>
+      </div>
+      <div class="navbarItems">
+        <div class="navbarItem selected" onclick="location.href = '/'">
+          Home
+        </div>
+        <div
+          class="navbarItem"
+          data-id="newPlanBtn"
+          onclick="openCreatePlanContainer()"
+        >
+          New Plan
+        </div>
+        <div class="navbarItem" data-id="logoutBtn">Logout</div>
+      </div>
+      <script>
+        let loggedIn = false
+        if (localStorage.getItem('name') && localStorage.getItem('sessionID')) {
+          loggedIn = true
+        }
+        if (document.documentElement.clientWidth < 450) {
+          document.getElementsByClassName('navbar')[0].classList.add('mobile')
+        }
+        function navbarItemLine() {
+          const items = document.getElementsByClassName('navbarItem')
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].firstElementChild) {
+              items[i].removeChild(items[i].firstElementChild)
+            }
+            items[i].id = `navbarItem${i}`
+            const width = document.defaultView.getComputedStyle(items[i]).width
+            const styleEl = document.createElement('style')
+            styleEl.innerHTML = `#${items[i].id}::after {width: ${width};transform: translate(-${width}, 32px)}`
+            items[i].appendChild(styleEl)
+          }
+        }
+        navbarItemLine()
+        function toggleMenuLeft() {
+          if (
+            document.getElementsByClassName('navbarItemMenuLeft')[0].style
+              .margin != '20px'
+          ) {
+            document.getElementsByClassName('navbar')[0].style.width = '100%'
+            document.getElementsByClassName('navbar')[0].style.height =
+              'fit-content'
+            document.getElementsByClassName(
+              'navbarItemMenuLeft'
+            )[0].style.margin = '20px'
+            document.getElementsByClassName('navbarItems')[0].style.display =
+              'flex'
+          } else {
+            document.getElementsByClassName('navbar')[0].style.width = '75px'
+            document.getElementsByClassName('navbar')[0].style.height = '75px'
+            document.getElementsByClassName(
+              'navbarItemMenuLeft'
+            )[0].style.margin = 'auto'
+            document.getElementsByClassName('navbarItems')[0].style.display =
+              'none'
+          }
+          navbarItemLine()
+        }
+        if (loggedIn) {
+          document
+            .querySelector('[data-id="logoutBtn"]')
+            .addEventListener('click', () => {
+              location.href = `/logout?name=${localStorage.getItem(
+                'name'
+              )}&sessionID=${localStorage.getItem('sessionID')}`
+            })
+        } else {
+          document
+            .querySelector('[data-id="logoutBtn"]')
+            .classList.add('hidden')
+          document
+            .querySelector('[data-id="newPlanBtn"]')
+            .classList.add('hidden')
+        }
+      </script>
+    </div>
+    <div class="itemContainer center setWidth hidden" id="loginContainer">
+      <div class="spacer-small"></div>
+      <div class="header center">Toudly Planner</div>
+      <div class="spacer"></div>
+      <div class="inpContainer center setWidth">
+        <button class="btn" id="registerBtn">Register</button>
+        <div class="spacer-small"></div>
+        <button class="btn" id="loginBtn">Login</button>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div id="mainContainer">
+      <button class="btn" id="createPlanBtn">
+        <svg
+          style="position: absolute; left: 10px; top: 10px"
+          fill="white"
+          viewBox="0 0 122.875 122.648"
+          width="21px"
+          height="21px"
+        >
+          <g>
+            <path
+              d="M108.993,47.079c7.683-0.059,13.898,6.12,13.882,13.805 c-0.018,7.683-6.26,13.959-13.942,14.019L75.24,75.138l-0.235,33.73c-0.063,7.619-6.338,13.789-14.014,13.78 c-7.678-0.01-13.848-6.197-13.785-13.818l0.233-33.497l-33.558,0.235C6.2,75.628-0.016,69.448,0,61.764 c0.018-7.683,6.261-13.959,13.943-14.018l33.692-0.236l0.236-33.73C47.935,6.161,54.209-0.009,61.885,0 c7.678,0.009,13.848,6.197,13.784,13.818l-0.233,33.497L108.993,47.079L108.993,47.079z"
+            />
+          </g></svg
+        ><a style="margin-left: 28px"></a> Create New Plan
+      </button>
+      <div class="header center" id="welcomeMsg">Hello!</div>
+      <div class="spacer"></div>
+      <div
+        class="header"
+        id="dateTimeMsg"
+        title="Click To Copy"
+        onclick="navigator.clipboard.writeText(`${todayDate.getMonth() + 1}/${todayDate.getDate()}/${todayDate.getFullYear()} | ${todayDate.getHours() % 12 || 12}:${(todayDate.getMinutes() < 10 ? '0' : '') + todayDate.getMinutes()} ${todayDate.getHours() < 12 ? 'AM' : 'PM'}`)"
+      ></div>
+      <div
+        id="createPlanContainer"
+        class="itemContainer planContainer fullScreen hidden"
+      >
+        <form action="/post/createPlan" method="post">
+          <div class="close">
+            <svg
+              class="closeSVG"
+              onclick="closeCreatePlanContainer(); history.back();"
+              width="25px"
+              height="25px"
+              viewBox="0 0 18 18"
+            >
+              <path d="M2 16L16 2" />
+              <path d="M2 2L16 16" />
+            </svg>
+          </div>
+          <button type="submit" class="submit btn" value="" disabled>
+            <svg
+              class="submitSVG"
+              width="25px"
+              height="25px"
+              viewBox="0 0 24 24"
+            >
+              <g>
+                <path
+                  d="M21.421,5.669l-3.28,13.12a3.529,3.529,0,0,1-3.47,2.71h-.02a3.524,3.524,0,0,1-3.46-2.76l-.86-3.65,5.38-5.38a1,1,0,1,0-1.42-1.42l-5.38,5.38-3.65-.86a3.575,3.575,0,0,1-.05-6.95l13.12-3.28a2.548,2.548,0,0,1,3.09,3.09Z"
+                />
+              </g>
+            </svg>
+          </button>
+          <input
+            type="text"
+            class="titleInp inp"
+            name="title"
+            placeholder="Title"
+          />
+          <div class="spacer-verySmall"></div>
+          <div class="info hidden">Date</div>
+          <input type="date" class="dateInp inp" name="date" />
+          <div class="spacer-verySmall"></div>
+          <div class="info hidden">Time</div>
+          <input type="time" class="timeInp inp" name="time" />
+          <div class="spacer-small"></div>
+          <div class="line"></div>
+          <div class="spacer-small"></div>
+          <textarea
+            name="content"
+            class="contentInp"
+            placeholder="Content"
+          ></textarea>
+          <input type="hidden" class="name" name="name" />
+          <input type="hidden" class="sessionID" name="sessionID" />
+        </form>
+      </div>
+      <div class="header-small">Plans For Today</div>
+      <div class="spacer-small"></div>
+      <div class="planContainerWrapper" id="planContainerWrapperToday"></div>
+      <div class="spacer-large"></div>
+      <div class="header-small">More Plans</div>
+      <div class="spacer-small"></div>
+      <div class="planContainerWrapper" id="planContainerWrapper"></div>
+      <div class="spacer-large"></div>
+      <div class="header-small" id="oldPlans">Old Plans</div>
+      <div class="spacer-small"></div>
+      <div
+        class="planContainerWrapper"
+        id="planContainerWrapperBeforeToday"
+      ></div>
+    </div>
+  </body>
+  <script src="/js/main.min.js"></script>
+</html>
