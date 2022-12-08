@@ -9,6 +9,7 @@ const dataPath = 'data/'
 let sessionIDs = new Object()
 let sessionIDsLog = new Array()
 setInterval(() => {
+  sessionIDsLog = []
   for (let i = 0; i < Object.keys(sessionIDs).length; i++) {
     sessionIDsLog.push(sessionIDs[Object.keys(sessionIDs)[i]])
   }
