@@ -9,8 +9,7 @@ document.getElementById('loginBtn').addEventListener('click', () => {
 
 //from navbar
 if (loggedIn) {
-  let textForTime = 'Hello'
-  textForTime = getTimeText(todayDate)
+  let textForTime = getTimeText(todayDate) || 'Hello'
   document.getElementById('welcomeMsg').innerHTML = `${textForTime} ${
     localStorage.getItem('name').split('@')[0]
   }!`
