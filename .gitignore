@@ -1,4 +1,5 @@
-data
+data 
+# data dir has to be created after cloning
 android
 *.min.*
 .vscode
