@@ -423,6 +423,47 @@ const server = http.createServer(function (req, res) {
         )
         res.writeHead(301, { Location: '/' })
         res.end()
+      } else if (url == 'logoutAll') {
+        errArr.push('logoutAll')
+        let data = parse(body)
+        if (!data.name || !data.password) {
+          errArr.push('invalidData')
+          res.writeHead(301, { Location: `/error?e=${errArr.join('.')}` })
+          res.end()
+          return
+        }
+        const oldFile = JSON.parse(fs.readFileSync(`${dataPath}user.json`))
+        if (!oldFile[data.name]) {
+          errArr.push('nameDoesNotExist')
+          res.writeHead(301, { Location: `/error?e=${errArr.join('.')}` })
+          res.end()
+          return
+        }
+        //password
+        const [salt, key] = oldFile[data.name].password.split(':')
+        const hashedPassword = crypto
+          .scryptSync(data.password, salt, 64)
+          .toString('hex')
+        if (key != hashedPassword) {
+          errArr.push('wrongPassword')
+          res.writeHead(301, { Location: `/error?e=${errArr.join('.')}` })
+          res.end()
+          return
+        }
+
+        //remove sessionIDs
+        for (let i = 0; i < Object.keys(sessionIDs).length; i++) {
+          if (Object.keys(sessionIDs)[i].startsWith(data.name)) {
+            delete sessionIDs[Object.keys(sessionIDs)[i]]
+          }
+        }
+        sessionIDsLog = []
+        for (let i = 0; i < Object.keys(sessionIDs).length; i++) {
+          sessionIDsLog.push(sessionIDs[Object.keys(sessionIDs)[i]])
+        }
+
+        res.writeHead(301, { Location: `/` })
+        res.end()
       } else {
         //page not found
         res.writeHead(301, { Location: '/404' })

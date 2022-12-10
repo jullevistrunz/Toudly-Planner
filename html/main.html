@@ -51,6 +51,7 @@
           New Plan
         </div>
         <div class="navbarItem" data-id="logoutBtn">Logout</div>
+        <div class="navbarItem" data-id="logoutAllBtn">Logout All</div>
       </div>
       <script>
         let loggedIn = false
@@ -106,9 +107,21 @@
                 'name'
               )}&sessionID=${localStorage.getItem('sessionID')}`
             })
+          document
+            .querySelector('[data-id="logoutAllBtn"]')
+            .addEventListener('click', function () {
+              document
+                .querySelector('.navbar .navbarItems .selected')
+                .classList.remove('selected')
+              this.classList.add('selected')
+              logoutAllPopUp()
+            })
         } else {
           document
             .querySelector('[data-id="logoutBtn"]')
+            .classList.add('hidden')
+          document
+            .querySelector('[data-id="logoutAllBtn"]')
             .classList.add('hidden')
           document
             .querySelector('[data-id="newPlanBtn"]')
