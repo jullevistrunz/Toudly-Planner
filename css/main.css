@@ -99,6 +99,7 @@ body {
 .navbar.mobile {
   font-size: 26px;
   width: 75px;
+  padding: 0;
 }
 
 .navbar.mobile .navbarItems {
