@@ -1,0 +1,38 @@
+.itemContainer#dangerZoneContainer {
+    outline: red 5px solid;
+    outline-offset: -5px;
+}
+
+.itemContainer#dangerZoneContainer .btn {
+    color: red;
+    background-color: white;
+    border-color: red;
+}
+
+.itemContainer#dangerZoneContainer .btn:hover {
+    color: white;
+    background-color: red;
+}
+
+.userInfoTable {
+    font-size: 20px;
+    font-weight: 600;
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.userInfoTable td {
+    width: calc(100% / 2);
+    padding: 5px;
+}
+
+.userInfoTable tr:not(:last-child) {
+    border-bottom: var(--secondary-color-dark) solid 1px;
+}
+
+.userInfoTable tr td:first-child {
+    font-weight: 700;
+    padding-left: 0;
+}

@@ -31,7 +31,6 @@
         <div class="navbarItem selected" onclick="location.href = '/'">
           Home
         </div>
-        <div class="navbarItem" onclick="location.href = '/user'">User</div>
         <div
           class="navbarItem"
           data-id="newPlanBtn"
@@ -39,82 +38,65 @@
         >
           New Plan
         </div>
-        <div class="navbarItem" data-id="logoutBtn">Logout</div>
-        <div class="navbarItem" data-id="logoutAllBtn">Logout All</div>
+        <div
+          class="navbarItem"
+          data-id="userBtn"
+          onclick="location.href = '/user'"
+        >
+          User
+        </div>
       </div>
       <script>
-        let loggedIn = false
-        if (localStorage.getItem('name') && localStorage.getItem('sessionID')) {
-          loggedIn = true
+        let loggedIn = false;
+        if (localStorage.getItem("name") && localStorage.getItem("sessionID")) {
+          loggedIn = true;
         }
         if (document.documentElement.clientWidth < 450) {
-          document.getElementsByClassName('navbar')[0].classList.add('mobile')
+          document.getElementsByClassName("navbar")[0].classList.add("mobile");
         }
         function navbarItemLine() {
-          const items = document.getElementsByClassName('navbarItem')
+          const items = document.getElementsByClassName("navbarItem");
           for (let i = 0; i < items.length; i++) {
             if (items[i].firstElementChild) {
-              items[i].removeChild(items[i].firstElementChild)
+              items[i].removeChild(items[i].firstElementChild);
             }
-            items[i].id = `navbarItem${i}`
-            const width = document.defaultView.getComputedStyle(items[i]).width
-            const styleEl = document.createElement('style')
-            styleEl.innerHTML = `#${items[i].id}::after {width: ${width};transform: translate(-${width}, 32px)}`
-            items[i].appendChild(styleEl)
+            items[i].id = `navbarItem${i}`;
+            const width = document.defaultView.getComputedStyle(items[i]).width;
+            const styleEl = document.createElement("style");
+            styleEl.innerHTML = `#${items[i].id}::after {width: ${width};transform: translate(-${width}, 32px)}`;
+            items[i].appendChild(styleEl);
           }
         }
-        navbarItemLine()
+        navbarItemLine();
         function toggleMenuLeft() {
           if (
-            document.getElementsByClassName('navbarItemMenuLeft')[0].style
-              .margin != '20px'
+            document.getElementsByClassName("navbarItemMenuLeft")[0].style
+              .margin != "20px"
           ) {
-            document.getElementsByClassName('navbar')[0].style.width = '100%'
-            document.getElementsByClassName('navbar')[0].style.height =
-              'fit-content'
+            document.getElementsByClassName("navbar")[0].style.width = "100%";
+            document.getElementsByClassName("navbar")[0].style.height =
+              "fit-content";
             document.getElementsByClassName(
-              'navbarItemMenuLeft'
-            )[0].style.margin = '20px'
-            document.getElementsByClassName('navbarItems')[0].style.display =
-              'flex'
+              "navbarItemMenuLeft"
+            )[0].style.margin = "20px";
+            document.getElementsByClassName("navbarItems")[0].style.display =
+              "flex";
           } else {
-            document.getElementsByClassName('navbar')[0].style.width = '75px'
-            document.getElementsByClassName('navbar')[0].style.height = '75px'
+            document.getElementsByClassName("navbar")[0].style.width = "75px";
+            document.getElementsByClassName("navbar")[0].style.height = "75px";
             document.getElementsByClassName(
-              'navbarItemMenuLeft'
-            )[0].style.margin = 'auto'
-            document.getElementsByClassName('navbarItems')[0].style.display =
-              'none'
+              "navbarItemMenuLeft"
+            )[0].style.margin = "auto";
+            document.getElementsByClassName("navbarItems")[0].style.display =
+              "none";
           }
-          navbarItemLine()
+          navbarItemLine();
         }
-        if (loggedIn) {
-          document
-            .querySelector('[data-id="logoutBtn"]')
-            .addEventListener('click', () => {
-              location.href = `/logout?name=${localStorage.getItem(
-                'name'
-              )}&sessionID=${localStorage.getItem('sessionID')}`
-            })
-          document
-            .querySelector('[data-id="logoutAllBtn"]')
-            .addEventListener('click', function () {
-              document
-                .querySelector('.navbar .navbarItems .selected')
-                .classList.remove('selected')
-              this.classList.add('selected')
-              logoutAllPopUp()
-            })
-        } else {
-          document
-            .querySelector('[data-id="logoutBtn"]')
-            .classList.add('hidden')
-          document
-            .querySelector('[data-id="logoutAllBtn"]')
-            .classList.add('hidden')
+        if (!loggedIn) {
           document
             .querySelector('[data-id="newPlanBtn"]')
-            .classList.add('hidden')
+            .classList.add("hidden");
+          document.querySelector('[data-id="userBtn"]').classList.add("hidden");
         }
       </script>
     </div>

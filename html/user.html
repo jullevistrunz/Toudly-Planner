@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toudly Planner</title>
+    <title>Toudly - User</title>
     <link rel="stylesheet" href="/css/root.min.css" />
     <link rel="stylesheet" href="/css/main.min.css" />
+    <link rel="stylesheet" href="/css/user.min.css" />
   </head>
   <body>
     <div class="navbar">
@@ -43,68 +44,92 @@
         <div class="navbarItem selected" onclick="location.href = '/user'">
           User
         </div>
-        <div class="navbarItem" data-id="logoutBtn">Logout</div>
       </div>
       <script>
-        let loggedIn = false
-        if (localStorage.getItem('name') && localStorage.getItem('sessionID')) {
-          loggedIn = true
+        let loggedIn = false;
+        if (localStorage.getItem("name") && localStorage.getItem("sessionID")) {
+          loggedIn = true;
         }
         if (document.documentElement.clientWidth < 450) {
-          document.getElementsByClassName('navbar')[0].classList.add('mobile')
+          document.getElementsByClassName("navbar")[0].classList.add("mobile");
         }
         function navbarItemLine() {
-          const items = document.getElementsByClassName('navbarItem')
+          const items = document.getElementsByClassName("navbarItem");
           for (let i = 0; i < items.length; i++) {
             if (items[i].firstElementChild) {
-              items[i].removeChild(items[i].firstElementChild)
+              items[i].removeChild(items[i].firstElementChild);
             }
-            items[i].id = `navbarItem${i}`
-            const width = document.defaultView.getComputedStyle(items[i]).width
-            const styleEl = document.createElement('style')
-            styleEl.innerHTML = `#${items[i].id}::after {width: ${width};transform: translate(-${width}, 32px)}`
-            items[i].appendChild(styleEl)
+            items[i].id = `navbarItem${i}`;
+            const width = document.defaultView.getComputedStyle(items[i]).width;
+            const styleEl = document.createElement("style");
+            styleEl.innerHTML = `#${items[i].id}::after {width: ${width};transform: translate(-${width}, 32px)}`;
+            items[i].appendChild(styleEl);
           }
         }
-        navbarItemLine()
+        navbarItemLine();
         function toggleMenuLeft() {
           if (
-            document.getElementsByClassName('navbarItemMenuLeft')[0].style
-              .margin != '20px'
+            document.getElementsByClassName("navbarItemMenuLeft")[0].style
+              .margin != "20px"
           ) {
-            document.getElementsByClassName('navbar')[0].style.width = '100%'
-            document.getElementsByClassName('navbar')[0].style.height =
-              'fit-content'
+            document.getElementsByClassName("navbar")[0].style.width = "100%";
+            document.getElementsByClassName("navbar")[0].style.height =
+              "fit-content";
             document.getElementsByClassName(
-              'navbarItemMenuLeft'
-            )[0].style.margin = '20px'
-            document.getElementsByClassName('navbarItems')[0].style.display =
-              'flex'
+              "navbarItemMenuLeft"
+            )[0].style.margin = "20px";
+            document.getElementsByClassName("navbarItems")[0].style.display =
+              "flex";
           } else {
-            document.getElementsByClassName('navbar')[0].style.width = '75px'
-            document.getElementsByClassName('navbar')[0].style.height = '75px'
+            document.getElementsByClassName("navbar")[0].style.width = "75px";
+            document.getElementsByClassName("navbar")[0].style.height = "75px";
             document.getElementsByClassName(
-              'navbarItemMenuLeft'
-            )[0].style.margin = 'auto'
-            document.getElementsByClassName('navbarItems')[0].style.display =
-              'none'
+              "navbarItemMenuLeft"
+            )[0].style.margin = "auto";
+            document.getElementsByClassName("navbarItems")[0].style.display =
+              "none";
           }
-          navbarItemLine()
-        }
-        if (loggedIn) {
-          document
-            .querySelector('[data-id="logoutBtn"]')
-            .addEventListener('click', () => {
-              location.href = `/logout?name=${localStorage.getItem(
-                'name'
-              )}&sessionID=${localStorage.getItem('sessionID')}`
-            })
-        } else {
-          document
-            .querySelector('[data-id="logoutBtn"]')
-            .classList.add('hidden')
+          navbarItemLine();
         }
       </script>
     </div>
+    <div class="itemContainer center setWidth" id="userInfoContainer">
+      <div class="spacer-small"></div>
+      <div class="header center">User Info</div>
+      <div class="spacer"></div>
+      <table class="userInfoTable">
+        <tr>
+          <td>Username</td>
+          <td id="userInfo-username">ls_name_0</td>
+        </tr>
+        <tr>
+          <td>Device</td>
+          <td id="userInfo-device">ls_name_1</td>
+        </tr>
+        <tr>
+          <td>Full Username</td>
+          <td id="userInfo-fullUserName">ls_name</td>
+        </tr>
+      </table>
+      <div class="spacer"></div>
+    </div>
+    <div class="spacer-large"></div>
+    <div class="itemContainer center setWidth" id="dangerZoneContainer">
+      <div class="spacer-small"></div>
+      <div class="header center">Danger Zone</div>
+      <div class="spacer"></div>
+      <div class="inpContainer center setWidth">
+        <input class="btn" id="logoutBtn" type="submit" value="Logout" />
+        <div class="spacer-small"></div>
+        <input
+          class="btn"
+          id="logoutAllBtn"
+          type="submit"
+          value="Logout All Devices"
+        />
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <script src="/js/user.min.js"></script>
   </body>
 </html>
